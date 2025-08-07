@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShopAdvanced - Shop</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="navbar" role="banner">
+        <div class="logo" tabindex="0">ShopAdvanced</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="nav-controls">
+            <button id="darkModeToggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
+            <button id="cartBtn" aria-label="Open shopping cart" title="Open Cart">
+                🛒 Cart (<span id="cartCount">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="filters">
+            <input type="search" id="searchInput" placeholder="Search products..." aria-label="Search products"
+                autocomplete="off" />
+            <select id="categoryFilter" aria-label="Filter by category" title="Filter products by category">
+                <option value="all">All Categories</option>
+            </select>
+            <select id="sortSelect" aria-label="Sort products" title="Sort products">
+                <option value="default">Sort by</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name-asc">Name: A-Z</option>
+                <option value="name-desc">Name: Z-A</option>
+            </select>
+        </section>
+
+        <section class="products" id="products" aria-live="polite" aria-label="Product list"></section>
+    </main>
+
+    <aside id="cartSidebar" class="cart-sidebar" aria-label="Shopping Cart" aria-hidden="true" role="region"
+        tabindex="-1">
+        <header>
+            <h2>Your Cart</h2>
+            <button id="closeCartBtn" aria-label="Close cart sidebar">&times;</button>
+        </header>
+        <ul id="cartItems" class="cart-items" tabindex="0"></ul>
+        <footer>
+            <p>Total: ₹<span id="cartTotal">0</span></p>
+            <div class="cart-actions">
+                <button id="emptyCartBtn" class="btn-secondary" aria-label="Empty the cart">Empty Cart</button>
+                <button id="checkoutBtn" class="btn-primary">Checkout</button>
+            </div>
+        </footer>
+    </aside>
+
+    <footer class="footer" role="contentinfo">
+        <p>&copy; 2025 ShopAdvanced. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+    <script type="module">
+        import { products, renderProductList } from './products.js';
+
+        const productsContainer = document.getElementById('products');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sortSelect = document.getElementById('sortSelect');
+
+        // Populate category filter options
+        const categories = [...new Set(products.map(p => p.category))].sort();
+        categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat;
+            option.textContent = cat;
+            categoryFilter.appendChild(option);
+        });
+
+        // Render products initially and after input
+        function render() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const categoryVal = categoryFilter.value;
+            const sortVal = sortSelect.value;
+
+            renderProductList(products, productsContainer, { searchTerm, categoryVal, sortVal });
+        }
+
+        // Event listeners
+        searchInput.addEventListener('input', () => {
+            debounceRender();
+        });
+        categoryFilter.addEventListener('change', render);
+        sortSelect.addEventListener('change', render);
+
+        // Debounce helper
+        let debounceTimeout;
+        function debounceRender() {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(render, 300);
+        }
+
+        render();
+    </script>
+</body>
+
+</html>

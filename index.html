@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShopAdvanced - Home</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="navbar" role="banner">
+        <div class="logo" tabindex="0">ShopAdvanced</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="nav-controls">
+            <button id="darkModeToggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
+            <button id="cartBtn" aria-label="Open shopping cart" title="Open Cart">
+                🛒 Cart (<span id="cartCount">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <main class="home-main">
+        <section class="hero">
+            <h1>Welcome to ShopAdvanced</h1>
+            <p>Your one-stop online shop for the best electronics, accessories, and more!</p>
+            <a href="shop.html" class="btn-primary">Shop Now</a>
+        </section>
+
+        <section class="featured-products">
+            <h2>Featured Products</h2>
+            <div id="featuredProducts" class="products"></div>
+        </section>
+    </main>
+
+    <aside id="cartSidebar" class="cart-sidebar" aria-label="Shopping Cart" aria-hidden="true" role="region"
+        tabindex="-1">
+        <header>
+            <h2>Your Cart</h2>
+            <button id="closeCartBtn" aria-label="Close cart sidebar">&times;</button>
+        </header>
+        <ul id="cartItems" class="cart-items" tabindex="0"></ul>
+        <footer>
+            <p>Total: ₹<span id="cartTotal">0</span></p>
+            <div class="cart-actions">
+                <button id="emptyCartBtn" class="btn-secondary" aria-label="Empty the cart">Empty Cart</button>
+                <button id="checkoutBtn" class="btn-primary">Checkout</button>
+            </div>
+        </footer>
+    </aside>
+
+    <footer class="footer" role="contentinfo">
+        <p>&copy; 2025 ShopAdvanced. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+    <script type="module">
+        import { products } from './products.js';
+
+        const featuredContainer = document.getElementById('featuredProducts');
+
+        // Show first 4 products as featured
+        products.slice(0, 4).forEach((product) => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" loading="lazy" />
+        <div class="product-info">
+          <div class="product-title">${product.name}</div>
+          <div class="product-price">₹${product.price.toLocaleString('en-IN')}</div>
+          <button class="add-cart-btn" aria-label="Add ${product.name} to cart" data-id="${product.id}">Add to Cart</button>
+        </div>
+      `;
+            featuredContainer.appendChild(card);
+        });
+
+        // Handle add to cart on featured products
+        featuredContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-cart-btn')) {
+                const id = parseInt(e.target.dataset.id);
+                const event = new CustomEvent('addToCart', { detail: id });
+                window.dispatchEvent(event);
+            }
+        });
+    </script>
+</body>
+
+</html>

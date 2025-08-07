@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShopAdvanced - Contact</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="navbar" role="banner">
+        <div class="logo" tabindex="0">ShopAdvanced</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="nav-controls">
+            <button id="darkModeToggle" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">🌙</button>
+            <button id="cartBtn" aria-label="Open shopping cart" title="Open Cart">
+                🛒 Cart (<span id="cartCount">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <main class="contact-main">
+        <h1>Contact Us</h1>
+        <p>
+            Thank you for visiting ShopAdvanced! This is a demo contact page.
+            In a real application, you'd have a contact form here.
+        </p>
+        <p>Email: support@shopadvanced.com</p>
+        <p>Phone: +91-9876543210</p>
+    </main>
+
+    <aside id="cartSidebar" class="cart-sidebar" aria-label="Shopping Cart" aria-hidden="true" role="region"
+        tabindex="-1">
+        <header>
+            <h2>Your Cart</h2>
+            <button id="closeCartBtn" aria-label="Close cart sidebar">&times;</button>
+        </header>
+        <ul id="cartItems" class="cart-items" tabindex="0"></ul>
+        <footer>
+            <p>Total: ₹<span id="cartTotal">0</span></p>
+            <div class="cart-actions">
+                <button id="emptyCartBtn" class="btn-secondary" aria-label="Empty the cart">Empty Cart</button>
+                <button id="checkoutBtn" class="btn-primary">Checkout</button>
+            </div>
+        </footer>
+    </aside>
+
+    <footer class="footer" role="contentinfo">
+        <p>&copy; 2025 ShopAdvanced. All rights reserved.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
